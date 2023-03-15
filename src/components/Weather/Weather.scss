@@ -1,0 +1,31 @@
+.weather {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.display {
+  display: flex;
+  flex-direction: column;
+  padding: 10rem;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 7%), 0 2px 4px rgb(0 0 0 / 7%),
+    0 4px 8px rgb(0 0 0 / 7%), 0 8px 16px rgb(0 0 0 / 7%),
+    0 16px 32px rgb(0 0 0 / 7%), 0 32px 64px rgb(0 0 0 / 7%);
+max-width: 64rem;
+  &__title {
+    margin: 0;
+    font-size: 2.5rem;
+    padding-bottom: 2rem;
+  }
+  &__stat {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+  }
+  &__button {
+    width: 30%;
+    margin: 0 auto;
+  }
+}
