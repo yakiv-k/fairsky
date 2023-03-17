@@ -9,23 +9,45 @@
 .display {
   display: flex;
   flex-direction: column;
-  padding: 10rem;
+  padding: 4rem 3rem;
   box-shadow: 0 1px 2px rgb(0 0 0 / 7%), 0 2px 4px rgb(0 0 0 / 7%),
     0 4px 8px rgb(0 0 0 / 7%), 0 8px 16px rgb(0 0 0 / 7%),
     0 16px 32px rgb(0 0 0 / 7%), 0 32px 64px rgb(0 0 0 / 7%);
-max-width: 64rem;
+  background-color: #3f7cac;
+  max-width: 64rem;
   &__title {
+    color: white;
     margin: 0;
     font-size: 2.5rem;
-    padding-bottom: 2rem;
+    margin-bottom: 4rem;
   }
   &__stat {
     display: flex;
     justify-content: space-between;
     padding-bottom: 0.5rem;
   }
+  &__data {
+    background: white;
+    width: 40%;
+    text-align: center;
+  }
+  &__label {
+    color: white;
+  }
   &__button {
-    width: 30%;
+    width: 26%;
     margin: 0 auto;
+    margin-top: 2rem;
+    padding: 0.25rem;
+    border: none;
+    border-radius: 0.15rem;
+    color: #3f7cac;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
+      0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07),
+      0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
   }
 }
