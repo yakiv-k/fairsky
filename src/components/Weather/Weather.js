@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { LineChart, Line, CartesianGrid, XAxis, YAxis } from "recharts";
 import axios from "axios";
 import "./Weather.scss";
 
@@ -109,6 +110,12 @@ function Weather() {
           Pause/Resume
         </button>
       </div>
+      <LineChart width={600} height={300} data={final}>
+        <Line type="timestamp" dataKey="temperature" stroke="#8884d8" />
+        <CartesianGrid stroke="#ccc" />
+        <XAxis dataKey="name" />
+        <YAxis />
+      </LineChart>
     </section>
   );
 }
