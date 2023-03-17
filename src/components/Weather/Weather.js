@@ -16,14 +16,17 @@ const currentHour = `${day.getHours()}:00`;
 const weatherAPI = `https://api.open-meteo.com/v1/forecast?latitude=43.70&longitude=-79.54&hourly=temperature_2m&daily=weathercode&current_weather=true&precipitation_unit=inch&start_date=2023-03-08&end_date=${currentDate}&timezone=America%2FNew_York`;
 
 function Weather() {
-  const [temp, setTemp] = useState([]);
-  const [currentTime, setCurrentTime] = useState([]);
-  const [pause, setPause] = useState(false);
+    const [temp, setTemp] = useState([]);
+    const [currentTime, setCurrentTime] = useState([]);
+    const [pastDays, setPastDays] = useState([]);
+    const [pause, setPause] = useState(false);
+    const [final, setFinal] = useState([])
+  
 
-    // Function that allows you to suspend the update
-    const handlePause = () => {
-        setPause(!pause);
-      };
+  // Function that allows you to suspend the update
+  const handlePause = () => {
+    setPause(!pause);
+  };
 
   useEffect(() => {
     async function getWeatherData() {
@@ -33,23 +36,62 @@ function Weather() {
       let daysData = data.data.hourly;
       let refIndex = currentTimeData.indexOf(`${currentDate}T${currentHour}`);
 
-        setTemp(tempData[refIndex]);
-        setCurrentTime(currentTimeData[refIndex]);
+      setTemp(tempData[refIndex]);
+      setCurrentTime(currentTimeData[refIndex]);
+      setPastDays(daysData);
+
+      // FUNCTION: isolate data for previous five days
+      const getFiveDays = (arr) => {
+        let indices = [];
+        let newArr = [];
+        let hoursArr = arr.time;
+        let temp;
+        console.log(hoursArr);
+        for (let i = 0; i < hoursArr.length; i++) {
+          if (
+            hoursArr[i].includes(firstDay) &&
+            hoursArr[i].includes(currentHour)
+          ) {
+            indices.push(i);
+          }
+          if (
+            hoursArr[i].includes(currentDate) &&
+            hoursArr[i].includes(currentHour)
+          ) {
+            indices.push(i);
+          }
+        }
+
+        temp = [
+          arr.temperature_2m.slice(indices[0], indices[1]),
+          hoursArr.slice(indices[0], indices[1]),
+        ];
+        console.log("test");
+
+        for (let i = 0; i < temp[0].length; i++) {
+          newArr.push({
+            temperature: temp[0][i],
+            timestamp: temp[1][i],
+          });
+        }
+        setFinal(newArr);
+        return newArr;
+      };
+      console.log(getFiveDays(pastDays));
+
+      /////////////////
     }
 
     getWeatherData();
+
     const interval = setInterval(() => {
-        if (pause === false) {
-          getWeatherData();
-        }
-      }, 50000);
-  
-      return () => clearInterval(interval);
-    }, [pause]);
+      if (pause === false) {
+        getWeatherData();
+      }
+    }, 50000);
 
-
-
-
+    return () => clearInterval(interval);
+  }, [pause]);
 
   return (
     <section className="weather">
