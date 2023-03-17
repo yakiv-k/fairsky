@@ -18,6 +18,12 @@ const weatherAPI = `https://api.open-meteo.com/v1/forecast?latitude=43.70&longit
 function Weather() {
   const [temp, setTemp] = useState([]);
   const [currentTime, setCurrentTime] = useState([]);
+  const [pause, setPause] = useState(false);
+
+    // Function that allows you to suspend the update
+    const handlePause = () => {
+        setPause(!pause);
+      };
 
   useEffect(() => {
     async function getWeatherData() {
@@ -32,7 +38,14 @@ function Weather() {
     }
 
     getWeatherData();
-  }, []);
+    const interval = setInterval(() => {
+        if (pause === false) {
+          getWeatherData();
+        }
+      }, 50000);
+  
+      return () => clearInterval(interval);
+    }, [pause]);
 
 
 
@@ -50,7 +63,7 @@ function Weather() {
           <label className="display__label">Last measured at</label>
           <div className="display__data">{currentTime}</div>
         </div>
-        <button className="display__button">
+        <button onClick={handlePause} className="display__button">
           Pause/Resume
         </button>
       </div>
