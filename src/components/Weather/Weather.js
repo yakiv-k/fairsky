@@ -84,7 +84,7 @@ function Weather() {
         setHour(currentHour);
         getWeatherData();
       }
-    }, 3000);
+    }, 300000);
 
     return () => clearInterval(interval);
   }, [pause]);
