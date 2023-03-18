@@ -23,8 +23,7 @@ const currentDate = `${day.getFullYear()}-0${
 const firstDay = `${day.getFullYear()}-0${day.getMonth() + 1}-${
   day.getDate() - 5
 }`;
-const currentHour = `${day.getHours()}:00`;
-
+const currentHour = day.getHours() === 0 ? `${day.getHours()}0:00` : `${day.getHours()}:00`;
 // API URL
 const weatherAPI = `https://api.open-meteo.com/v1/forecast?latitude=43.70&longitude=-79.54&hourly=temperature_2m&daily=weathercode&current_weather=true&precipitation_unit=inch&start_date=2023-03-08&end_date=${currentDate}&timezone=America%2FNew_York`;
 
