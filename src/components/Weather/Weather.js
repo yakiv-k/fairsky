@@ -23,18 +23,16 @@ const currentDate = `${day.getFullYear()}-0${
 const firstDay = `${day.getFullYear()}-0${day.getMonth() + 1}-${
   day.getDate() - 5
 }`;
-const currentHour = day.getHours() < 10 ? `0${day.getHours()}:00` : `${day.getHours()}:00`;
-// API URL
+const currentHour =
+  day.getHours() < 10 ? `0${day.getHours()}:00` : `${day.getHours()}:00`;
+
 const weatherAPI = `https://api.open-meteo.com/v1/forecast?latitude=43.70&longitude=-79.54&hourly=temperature_2m&daily=weathercode&current_weather=true&precipitation_unit=inch&start_date=2023-03-08&end_date=${currentDate}&timezone=America%2FNew_York`;
 
 function Weather() {
-  // State for current temperature
   const [temp, setTemp] = useState([]);
-  // State for current time
+  const [hour, setHour] = useState(currentHour);
   const [currentTime, setCurrentTime] = useState([]);
-  // State for suspense of data
   const [pause, setPause] = useState(false);
-  // State for array passed to Rechart.js graph
   const [graphArr, setGraphArr] = useState([]);
 
   // FUNCTION: allows you to suspend the update
@@ -46,56 +44,48 @@ function Weather() {
   const getFiveDays = (arr) => {
     let newArr = [];
     let hoursArr = arr.time;
-    // index positions for temperature/timestamp exactly five days ago and current day
     let indices = [
       hoursArr.indexOf(`${firstDay}T${currentHour}`),
       hoursArr.indexOf(`${currentDate}T${currentHour}`),
     ];
 
-    // isolate 5 day data from API, return array of objects containing key value pairs for
-    // both pieces of data
     for (let i = indices[0]; i < indices[1]; i++) {
       newArr.push({
         temperature: arr.temperature_2m[i],
         timestamp: hoursArr[i],
       });
     }
-    // update state: graphdata
     setGraphArr(newArr);
   };
 
   useEffect(() => {
-    // ASYNC FUNCTION: retrieve data from API, update states
+    // FUNCTION: retrieve data from API, update states
     async function getWeatherData() {
       try {
-        // call API
         const data = await axios.get(weatherAPI);
-        // variables for temperature array and timestamp array in return data
         let tempData = data.data.hourly.temperature_2m;
         let currentTimeData = data.data.hourly.time;
-        // index of data matching current timestamp
-        let refIndex = currentTimeData.indexOf(`${currentDate}T${currentHour}`);
-        // set states
-        setTemp(tempData[refIndex]);
-        setCurrentTime(currentTimeData[refIndex]);
+        let refIndex = currentTimeData.indexOf(`${currentDate}T${hour}`);
+
+        setTemp((prev) => (prev = tempData[refIndex]));
+        setCurrentTime((prev) => (prev = currentTimeData[refIndex]));
         getFiveDays(data.data.hourly);
       } catch (e) {
-        // log error if call is unsuccesful
         console.log(e);
       }
     }
-
-    // run our function/update states on mount
-    getWeatherData();
-
+    // Update data if condition is met
+    if (pause === false) {
+      getWeatherData();
+    }
     // Update data every 5 min if condition is met
     const interval = setInterval(() => {
       if (pause === false) {
+        setHour(currentHour);
         getWeatherData();
       }
-    }, 50000);
+    }, 3000);
 
-    // cleanup function runs on unmount
     return () => clearInterval(interval);
   }, [pause]);
 
