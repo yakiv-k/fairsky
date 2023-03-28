@@ -27,7 +27,11 @@ const firstDay = `${day.getFullYear()}-0${day.getMonth() + 1}-${
 const currentHour =
   day.getHours() < 10 ? `0${day.getHours()}:00` : `${day.getHours()}:00`;
 
-const weatherAPI = `https://api.open-meteo.com/v1/forecast?latitude=43.70&longitude=-79.54&hourly=temperature_2m&daily=weathercode&current_weather=true&precipitation_unit=inch&start_date=2023-03-08&end_date=${currentDate}&timezone=America%2FNew_York`;
+const apiKey = "AIzaSyCz8EYe2qIHTrb72oymiksyWlrwgmzpy6U";
+const photoRef = "";
+// const photoRefAPI = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?fields=photos&input=${location}&inputtype=textquery&key=${apiKey}`;
+// const imageAPI = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoRef}&key=${apiKey}`;
+const weatherAPI = `https://api.open-meteo.com/v1/forecast?latitude=43.70&longitude=-79.54&hourly=temperature_2m&current_weather=true&start_date=2023-03-08&end_date=${currentDate}&timezone=America%2FNew_York`;
 
 function Weather() {
   const [temp, setTemp] = useState([]);
@@ -122,14 +126,30 @@ function Weather() {
                 display: "none",
               }}
               label={
-                <Text className="name__x" x={-15} y={0} dx={50} dy={250} offset={0} angle={-90}>
+                <Text
+                  className="name__x"
+                  x={-15}
+                  y={0}
+                  dx={50}
+                  dy={250}
+                  offset={0}
+                  angle={-90}
+                >
                   Temperature
                 </Text>
               }
             />
             <YAxis
               label={
-                <Text className="name__y" x={0} y={420} dx={475} dy={0} offset={0} angle={0}>
+                <Text
+                  className="name__y"
+                  x={0}
+                  y={420}
+                  dx={475}
+                  dy={0}
+                  offset={0}
+                  angle={0}
+                >
                   Timestamp
                 </Text>
               }
