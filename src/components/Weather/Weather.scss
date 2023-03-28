@@ -8,7 +8,6 @@
   align-items: center;
   gap: 3rem;
   margin: 0 auto;
-  // padding: 9rem;
   max-width: 64rem;
   flex-direction: column;
   @include desktop {
@@ -24,7 +23,6 @@
     0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07),
     0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
   background: slategrey;
-  /* max-width: 64rem; */
   border-radius: 1rem;
   &__title {
     color: white;
@@ -80,32 +78,3 @@
   }
 }
 
-.chart {
-  width: 100%;
-  padding: 1rem;
-}
-
-.recharts-surface {
-  padding: 1.3rem 2rem 0.3rem 0;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
-    0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07),
-    0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
-  border-radius: 1rem;
-  background: white;
-}
-
-.name {
-  &__x {
-    visibility: hidden;
-    @include desktop {
-      visibility: visible;
-    }
-  }
-  &__y {
-    visibility: hidden;
-    margin-bottom: 5rem;
-    @include desktop {
-      visibility: visible;
-    }
-  }
-}
