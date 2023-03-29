@@ -5,6 +5,8 @@ import axios from "axios";
 
 import playIcon from "../../assets/icons/playicon.svg";
 import pauseIcon from "../../assets/icons/pauseicon.png";
+import searchIcon from  "../../assets/icons/search.png";
+
 import "./Weather.scss";
 
 // Date and time variables used to isolate data
@@ -88,6 +90,15 @@ function Weather() {
 
   return (
     <section className="weather">
+      <section role="search" className="weather__search">
+
+      <input className="weather__input" placeholder="Location">
+      </input>
+          <img className="weather__image"src={searchIcon}></img>
+
+      </section>
+      <div className="weather__content">
+
       <div className="weather__display display">
         <h1 className="display__title">Toronto</h1>
         <div className="display__stat">
@@ -107,6 +118,7 @@ function Weather() {
         </button>
       </div>
       <Chart chartData={graphArr}/>
+      </div>
     </section>
   );
 }
