@@ -8,11 +8,73 @@
   align-items: center;
   gap: 3rem;
   margin: 0 auto;
-  // padding: 9rem;
   max-width: 64rem;
   flex-direction: column;
   @include desktop {
-    flex-direction: row;
+    justify-content: flex-start;
+    gap: 9rem; 
+    padding-top: 5rem;
+  }
+  &__content {
+    display: flex;
+    width: 100%;
+
+    @include desktop {
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 3rem;
+      margin: 0 auto;
+      max-width: 64rem;
+    }
+  }
+  &__search {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    padding: 1.05rem 0.5rem;
+    width: 45.5%;
+    background: transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
+      0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07),
+      0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
+      border-radius: 0.25rem;
+  }
+  &__input {
+    color: white;
+    border: none;
+    background: transparent;
+    width: 100%;
+    margin-left: 0.35rem;
+  }
+  &__input::placeholder {
+    color: rgb(202, 197, 197);
+    border-radius: 0.25rem;
+    font-size: 1rem;
+  }
+  &__input:focus{
+    outline: none;
+    caret-color: white;
+}
+  &__image {
+    width: 1rem;
+    margin-right: 0.5rem;
+  }
+  &__results {
+    padding: 1.05rem 0.5rem;
+    width: 45.5%;
+    background: transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
+      0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07),
+      0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
+      border-radius: 0.25rem;
+  }
+  &__container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
   }
 }
 
@@ -24,7 +86,6 @@
     0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07),
     0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
   background: slategrey;
-  /* max-width: 64rem; */
   border-radius: 1rem;
   &__title {
     color: white;
@@ -80,32 +141,5 @@
   }
 }
 
-.chart {
-  width: 100%;
-  padding: 1rem;
-}
 
-.recharts-surface {
-  padding: 1.3rem 2rem 0.3rem 0;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
-    0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07),
-    0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
-  border-radius: 1rem;
-  background: white;
-}
 
-.name {
-  &__x {
-    visibility: hidden;
-    @include desktop {
-      visibility: visible;
-    }
-  }
-  &__y {
-    visibility: hidden;
-    margin-bottom: 5rem;
-    @include desktop {
-      visibility: visible;
-    }
-  }
-}
