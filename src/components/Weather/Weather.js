@@ -27,7 +27,7 @@ function Weather() {
   const [currentTime, setCurrentTime] = useState([]);
   const [pause, setPause] = useState(false);
   const [graphArr, setGraphArr] = useState([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState([]);
 
   const apiKey = "886705b4c1182eb1c69f28eb8c520e20";
   const locationAPI = "https://wft-geo-db.p.rapidapi.com/v1/geo";
@@ -48,14 +48,16 @@ function Weather() {
 
   // FUNCTION: updates state with search input
   const handleSearch = (s) => {
-    axios
-      .get(
-        `${locationAPI}/cities?minPopulation=100000&namePrefix=${s.target.value}`,
-        geoAPIOptions
-      )
-      .then((response) => {
-        console.log(response.data);
-      });
+    if (s.target.value) {
+      axios
+        .get(
+          `${locationAPI}/cities?minPopulation=100&namePrefix=${s.target.value}`,
+          geoAPIOptions
+        )
+        .then((response) => {
+          setSearch(response.data.data);
+        });
+    }
   };
 
   // FUNCTION: isolate data for previous five days
@@ -109,17 +111,34 @@ function Weather() {
 
   return (
     <section className="weather">
-      <div className="weather__container">
-        <section role="search" className="weather__search">
-          <input
-            onChange={handleSearch}
-            className="weather__input"
-            placeholder="Location"
-          ></input>
-          <img className="weather__image" src={searchIcon}></img>
-        </section>
-        {/* {} */}
-        {/* <div className="weather__results"></div> */}
+      <div className="weather__partition">
+        <div className="weather__container">
+          <section role="search" className="weather__search">
+            <input
+              onClick={handleSearch}
+              className="weather__input"
+              placeholder="Location"
+            ></input>
+            <img className="weather__image" src={searchIcon}></img>
+          </section>
+          {search.length ? (
+          <div className="weather__dropdown">
+            <div className="weather__subcontainer">
+            {search.map((result, i) => {
+              return (
+                <div className="weather__results" key={result[i]}>
+                  {" "}
+                  {`${result.city}, ${result.region}, ${result.country}`}
+                </div>
+              );
+            })}
+            </div>
+          </div>
+        ) : (
+          <div></div>
+        )}
+        </div>
+
       </div>
       <div className="weather__content">
         <div className="weather__display display">
