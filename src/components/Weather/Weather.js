@@ -28,15 +28,18 @@ function Weather() {
   const [pause, setPause] = useState(false);
   const [graphArr, setGraphArr] = useState([]);
   const [search, setSearch] = useState("");
-  const [photoRef, setPhotoRef] = useState("");
 
-  const proxyurl = "https://cors-anywhere.herokuapp.com/";
-  const apiKey = "AIzaSyBvmSuO1fgGA5SDNHOUuUoYM1yLpsSzZ0M";
-  const photoRefAPI = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?fields=photos%2Cgeometry&input=${search}&inputtype=textquery&key=${apiKey}`;
-
-  const imageAPI = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoRef}&key=${apiKey}`;
-
+  const apiKey = "886705b4c1182eb1c69f28eb8c520e20";
+  const locationAPI = "https://wft-geo-db.p.rapidapi.com/v1/geo";
   const weatherAPI = `https://api.open-meteo.com/v1/forecast?latitude=43.70&longitude=-79.54&hourly=temperature_2m&current_weather=true&start_date=2023-03-08&end_date=${currentDate}&timezone=America%2FNew_York`;
+
+  const geoAPIOptions = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "42c25916ddmshd0dfe1856ff4edcp14f04fjsnc7898c732bb9",
+      "X-RapidAPI-Host": "wft-geo-db.p.rapidapi.com",
+    },
+  };
 
   // FUNCTION: allows you to suspend the update
   const handlePause = () => {
@@ -45,19 +48,15 @@ function Weather() {
 
   // FUNCTION: updates state with search input
   const handleSearch = (s) => {
-    setSearch(s.target.value);
-    axios.get(proxyurl + photoRefAPI).then((r) => {
-      {
-        if (r.data.status === "OK") {
-          // {console.log(r.data.candidates)}
-          console.log(r.data.candidates[0].geometry.location);
-        }
-      }
-    });
+    axios
+      .get(
+        `${locationAPI}/cities?minPopulation=100000&namePrefix=${s.target.value}`,
+        geoAPIOptions
+      )
+      .then((response) => {
+        console.log(response.data);
+      });
   };
-  // axios.get(proxyurl + photoRefAPI).then(r=> {
-  //   {console.log(r.data)}
-  // })
 
   // FUNCTION: isolate data for previous five days
   const getFiveDays = (arr) => {
@@ -81,9 +80,6 @@ function Weather() {
     // FUNCTION: retrieve data from API, update states
     async function getWeatherData() {
       try {
-        // const locationData = await axios.get(proxyurl + photoRefAPI);
-        // console.log(locationData.data.candidates)
-        // const imageData = await axios.get(proxyurl + weatherAPI);
         const data = await axios.get(weatherAPI);
         let tempData = data.data.hourly.temperature_2m;
         let currentTimeData = data.data.hourly.time;
