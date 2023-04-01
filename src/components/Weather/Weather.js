@@ -31,17 +31,16 @@ const currentHour =
   }`;
 
 function Weather() {
-  const [temp, setTemp] = useState([]);
   const [hour, setHour] = useState(currentHour);
-  const [currentTime, setCurrentTime] = useState([]);
+  const [currentData, setCurrentData] = useState([])
   const [pause, setPause] = useState(false);
   const [graphArr, setGraphArr] = useState([]);
   const [search, setSearch] = useState([]);
-  const [coordinates, setCoordinates] = useState([43.7, -79.54]);
+  const [coordinates, setCoordinates] = useState(["43.7", "-79.54", "Toronto"]);
 
   const apiKey = "886705b4c1182eb1c69f28eb8c520e20";
   const locationAPI = "https://wft-geo-db.p.rapidapi.com/v1/geo";
-  const weatherAPI = `https://api.open-meteo.com/v1/forecast?latitude=43.70&longitude=-79.54&hourly=temperature_2m&current_weather=true&start_date=${prevDay}&end_date=${currentDate}&timezone=America%2FNew_York`;
+  const weatherAPI = `https://api.open-meteo.com/v1/forecast?latitude=${coordinates[0]}&longitude=${coordinates[1]}&hourly=temperature_2m&current_weather=true&start_date=${prevDay}&end_date=${currentDate}&timezone=America%2FNew_York`;
   const geoAPIOptions = {
     method: "GET",
     headers: {
@@ -72,8 +71,8 @@ function Weather() {
                                                                                                                              
   const handleCoordinates = (e) => {
     let index = e.target.getAttribute("data");
-    let latLong = [search[index].latitude, search[index].longitude];
-    setCoordinates(latLong);
+    let latLongCity = [search[index].latitude, search[index].longitude, search[index].city];
+    setCoordinates(latLongCity);
   };
 
   // FUNCTION: isolate data for previous five days
@@ -103,8 +102,7 @@ function Weather() {
         let currentTimeData = data.data.hourly.time;
         let refIndex = currentTimeData.indexOf(`${currentDate}T${hour}`);
 
-        setTemp((prev) => (prev = tempData[refIndex]));
-        setCurrentTime((prev) => (prev = currentTimeData[refIndex]));
+        setCurrentData((prev) => prev = ([tempData[refIndex], currentTimeData[refIndex]]))
         getFiveDays(data.data.hourly);
       } catch (e) {
         console.log(e);
@@ -119,11 +117,12 @@ function Weather() {
       if (pause === false) {
         setHour(currentHour);
         getWeatherData();
+        // console.log(coordinates)
       }
     }, 300000);
 
     return () => clearInterval(interval);
-  }, [pause]);
+  }, [pause, coordinates]);
 
   return (
     <section className="weather">
@@ -162,14 +161,14 @@ function Weather() {
       </div>
       <div className="weather__content">
         <div className="weather__display display">
-          <h1 className="display__title">Toronto</h1>
+          <h1 className="display__title">{coordinates[2]}</h1>
           <div className="display__stat">
             <label className="display__label">Temperature</label>
-            <div className="display__data">{temp} °C</div>
+            <div className="display__data">{currentData[0]} °C</div>
           </div>
           <div className="display__stat">
             <label className="display__label">Last measured at</label>
-            <div className="display__data--size">{currentTime}</div>
+            <div className="display__data--size">{currentData[1]}</div>
           </div>
           <button onClick={handlePause} className="display__button">
             <img
