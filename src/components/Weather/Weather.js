@@ -63,8 +63,10 @@ function Weather() {
           geoAPIOptions
         )
         .then((response) => {
-          setSearch(response.data.data);
-          console.log(response.data)
+          if (response) {
+            setSearch(response.data.data);
+            console.log(response.data)
+          }
         });
     }
   };
