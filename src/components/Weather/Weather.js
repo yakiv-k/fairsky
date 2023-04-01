@@ -11,15 +11,24 @@ import "./Weather.scss";
 
 // Date and time variables used to isolate data
 const day = new Date();
-const currentDate = `${day.getFullYear()}-0${
-  day.getMonth() + 1
-}-${day.getDate()}`;
+const pastDayRef = new Date(day - 1000 * 60 * 60 * 24 * 5);
+const currentDate =
+  day.getDate() < 10
+    ? `${day.getFullYear()}-0${day.getMonth() + 1}-0${day.getDate()}`
+    : `${day.getFullYear()}-0${day.getMonth() + 1}-${day.getDate()}`;
 // Exact date/time five days prior to current date/time
-const firstDay = `${day.getFullYear()}-0${day.getMonth() + 1}-${
-  day.getDate() - 5
-}`;
+
+const prevDay =
+  pastDayRef.getDate() < 10
+    ? `${pastDayRef.getFullYear()}-0${pastDayRef.getMonth() + 1}-0${pastDayRef.getDate()}`
+    : `${pastDayRef.getFullYear()}-0${pastDayRef.getMonth() + 1}-${pastDayRef.getDate()}`;
+
 const currentHour =
   day.getHours() < 10 ? `0${day.getHours()}:00` : `${day.getHours()}:00`;
+
+  const firstDay = `${day.getFullYear()}-0${day.getMonth() + 1}-${
+    day.getDate() - 5
+  }`;
 
 function Weather() {
   const [temp, setTemp] = useState([]);
@@ -28,11 +37,11 @@ function Weather() {
   const [pause, setPause] = useState(false);
   const [graphArr, setGraphArr] = useState([]);
   const [search, setSearch] = useState([]);
+  const [coordinates, setCoordinates] = useState([43.7, -79.54]);
 
   const apiKey = "886705b4c1182eb1c69f28eb8c520e20";
   const locationAPI = "https://wft-geo-db.p.rapidapi.com/v1/geo";
-  const weatherAPI = `https://api.open-meteo.com/v1/forecast?latitude=43.70&longitude=-79.54&hourly=temperature_2m&current_weather=true&start_date=2023-03-08&end_date=${currentDate}&timezone=America%2FNew_York`;
-
+  const weatherAPI = `https://api.open-meteo.com/v1/forecast?latitude=43.70&longitude=-79.54&hourly=temperature_2m&current_weather=true&start_date=${prevDay}&end_date=${currentDate}&timezone=America%2FNew_York`;
   const geoAPIOptions = {
     method: "GET",
     headers: {
@@ -56,8 +65,15 @@ function Weather() {
         )
         .then((response) => {
           setSearch(response.data.data);
+          console.log(response.data)
         });
     }
+  };
+                                                                                                                             
+  const handleCoordinates = (e) => {
+    let index = e.target.getAttribute("data");
+    let latLong = [search[index].latitude, search[index].longitude];
+    setCoordinates(latLong);
   };
 
   // FUNCTION: isolate data for previous five days
@@ -65,7 +81,7 @@ function Weather() {
     let newArr = [];
     let hoursArr = arr.time;
     let indices = [
-      hoursArr.indexOf(`${firstDay}T${currentHour}`),
+      hoursArr.indexOf(`${prevDay}T${currentHour}`),
       hoursArr.indexOf(`${currentDate}T${currentHour}`),
     ];
 
@@ -122,23 +138,27 @@ function Weather() {
             <img className="weather__image" src={searchIcon}></img>
           </section>
           {search.length ? (
-          <div className="weather__dropdown">
-            <div className="weather__subcontainer">
-            {search.map((result, i) => {
-              return (
-                <div className="weather__results" key={result[i]}>
-                  {" "}
-                  {`${result.city}, ${result.region}, ${result.country}`}
-                </div>
-              );
-            })}
+            <div className="weather__dropdown">
+              <div className="weather__subcontainer">
+                {search.map((result, i) => {
+                  return (
+                    <div
+                      className="weather__results"
+                      onClick={handleCoordinates}
+                      data={i}
+                      key={i}
+                    >
+                      {" "}
+                      {`${result.city}, ${result.region}, ${result.country}`}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ) : (
-          <div></div>
-        )}
+          ) : (
+            <div></div>
+          )}
         </div>
-
       </div>
       <div className="weather__content">
         <div className="weather__display display">
