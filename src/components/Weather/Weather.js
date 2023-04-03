@@ -37,6 +37,7 @@ function Weather() {
   const [graphArr, setGraphArr] = useState([]);
   const [search, setSearch] = useState([]);
   const [coordinates, setCoordinates] = useState(["43.7", "-79.54", "Toronto"]);
+  const [flag, setFlag] = useState(false);
 
   const apiKey = "886705b4c1182eb1c69f28eb8c520e20";
   const locationAPI = "https://wft-geo-db.p.rapidapi.com/v1/geo";
@@ -69,12 +70,14 @@ function Weather() {
           }
         });
     }
+    setFlag(true)
   };
                                                                                                                              
   const handleCoordinates = (e) => {
     let index = e.target.getAttribute("data");
     let latLongCity = [search[index].latitude, search[index].longitude, search[index].city];
     setCoordinates(latLongCity);
+    setFlag(false)
   };
 
   // FUNCTION: isolate data for previous five days
@@ -138,7 +141,7 @@ function Weather() {
             ></input>
             <img className="weather__image" src={searchIcon}></img>
           </section>
-          {search.length ? (
+          {search.length && flag === true ? (
             <div className="weather__dropdown">
               <div className="weather__subcontainer">
                 {search.map((result, i) => {
