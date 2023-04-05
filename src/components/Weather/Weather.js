@@ -16,8 +16,8 @@ const currentDate =
   day.getDate() < 10
     ? `${day.getFullYear()}-0${day.getMonth() + 1}-0${day.getDate()}`
     : `${day.getFullYear()}-0${day.getMonth() + 1}-${day.getDate()}`;
-// Exact date/time five days prior to current date/time
 
+// Exact date/time five days prior to current date/time
 const prevDay =
   pastDayRef.getDate() < 10
     ? `${pastDayRef.getFullYear()}-0${
@@ -47,7 +47,6 @@ function Weather() {
   const locationAPI = `http://api.openweathermap.org/geo/1.0/direct?q=`;
   const weatherAPI = `https://api.open-meteo.com/v1/forecast?latitude=${coordinates[0]}&longitude=${coordinates[1]}&hourly=temperature_2m&current_weather=true&start_date=${prevDay}&end_date=${currentDate}&timezone=America%2FNew_York`;
 
-
   // FUNCTION: allows you to suspend the update
   const handlePause = () => {
     setPause(!pause);
@@ -57,13 +56,10 @@ function Weather() {
   const handleSearch = (s) => {
     if (s.target.value) {
       axios
-        .get(
-          `${locationAPI}${s.target.value}&limit=5&appid=${apiKey}`
-        )
+        .get(`${locationAPI}${s.target.value}&limit=5&appid=${apiKey}`)
         .then((response) => {
           if (response) {
             setSearch(response.data);
-            console.log(response.data);
           }
         });
     }
@@ -118,6 +114,19 @@ function Weather() {
         console.log(e);
       }
     }
+
+    const closeDropDown = (e) => {
+      console.log(e);
+      if (e.target !== "input.weather__input") {
+        setFlag(false);
+      }
+      // if (search.length && flag === false) {
+      //   setFlag(true);
+      // }
+    };
+
+    document.body.addEventListener("click", closeDropDown);
+
     // Update data if condition is met
     if (pause === false) {
       getWeatherData();
@@ -131,7 +140,10 @@ function Weather() {
       }
     }, 300000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      document.body.removeEventListener("click", closeDropDown);
+    };
   }, [pause, coordinates]);
 
   return (
@@ -145,7 +157,7 @@ function Weather() {
               placeholder="Location"
             ></input>
             {/* <button type="button" form="form1" value="s"> */}
-              <img className="weather__image" src={searchIcon}></img>
+            <img className="weather__image" src={searchIcon}></img>
             {/* </button> */}
           </form>
 
