@@ -44,7 +44,7 @@ function Weather() {
   const [flag, setFlag] = useState(false);
 
   const apiKey = "8d7ab8fe6e9a2f98620049fd9f46d3ec";
-  const locationAPI = `http://api.openweathermap.org/geo/1.0/direct?q=`;
+  const locationAPI = `https://api.openweathermap.org/geo/1.0/direct?q=`;
   const weatherAPI = `https://api.open-meteo.com/v1/forecast?latitude=${coordinates[0]}&longitude=${coordinates[1]}&hourly=temperature_2m&current_weather=true&start_date=${prevDay}&end_date=${currentDate}&timezone=America%2FNew_York`;
 
   // FUNCTION: allows you to suspend the update
