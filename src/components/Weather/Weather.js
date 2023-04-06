@@ -62,8 +62,8 @@ function Weather() {
             setSearch(response.data);
           }
         });
+        setFlag(true);
     }
-    setFlag(true);
   };
 
   const handleCoordinates = (e) => {
@@ -116,13 +116,9 @@ function Weather() {
     }
 
     const closeDropDown = (e) => {
-      console.log(e);
       if (e.target !== "input.weather__input") {
         setFlag(false);
       }
-      // if (search.length && flag === false) {
-      //   setFlag(true);
-      // }
     };
 
     document.body.addEventListener("click", closeDropDown);
