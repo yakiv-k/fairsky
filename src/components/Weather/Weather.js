@@ -133,7 +133,6 @@ function Weather() {
       if (pause === false) {
         setHour(currentHour);
         getWeatherData();
-        // console.log(coordinates)
       }
     }, 300000);
 
@@ -152,9 +151,7 @@ function Weather() {
               onChange={handleSearch}
               placeholder="Location"
             ></input>
-            {/* <button type="button" form="form1" value="s"> */}
             <img className="weather__image" src={searchIcon}></img>
-            {/* </button> */}
           </form>
     
           {search.length && flag === true ? (
