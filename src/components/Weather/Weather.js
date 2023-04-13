@@ -6,6 +6,7 @@ import axios from "axios";
 import playIcon from "../../assets/icons/playicon.svg";
 import pauseIcon from "../../assets/icons/pauseicon.png";
 import searchIcon from "../../assets/icons/search.png";
+import errorIcon from "../../assets/icons/error.png";
 
 import "./Weather.scss";
 
@@ -141,7 +142,6 @@ function Weather() {
       document.body.removeEventListener("click", closeDropDown);
     };
   }, [pause, coordinates]);
-
   return (
     <section className="weather">
       <div className="weather__partition">
@@ -156,7 +156,7 @@ function Weather() {
             <img className="weather__image" src={searchIcon}></img>
             {/* </button> */}
           </form>
-
+    
           {search.length && flag === true ? (
             <div className="weather__dropdown">
               <div className="weather__subcontainer">
@@ -175,9 +175,13 @@ function Weather() {
                 })}
               </div>
             </div>
-          ) : (
-            <div></div>
-          )}
+          ) : !search.length && flag === true ? ( 
+            <div className="weather__error-container">
+              <div className="weather__subcontainer">
+              <div className="weather__error"><img className="weather__error-icon" src={errorIcon}></img>No results found.</div>
+            </div>
+            </div>
+          ) : (<div></div>)}
         </div>
       </div>
       <div className="weather__content">

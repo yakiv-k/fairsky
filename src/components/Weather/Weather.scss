@@ -95,6 +95,27 @@
     top: 3.6rem;
     width: -webkit-fill-available;
   }
+  &__error-container {
+    border-radius: 0.25rem;
+    margin: 0 auto;
+    position: absolute;
+    z-index: 1;
+    top: 3.6rem;
+    width: -webkit-fill-available;
+  }
+  &__error {
+    padding: 1.05rem 0.5rem;
+    background: #ecb886;
+    color: white;
+    transition: 0.1s;
+    display: flex;
+    align-items: center;
+  }
+  &__error-icon {
+    width: 1.2rem;
+    margin-right: 0.8rem;
+    margin-left: 0.45rem;
+  }
 }
 
 .display {
