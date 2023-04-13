@@ -1,0 +1,9 @@
+@use "../../styles/mixins" as *;
+
+.header {
+  &__logo {
+    width: 11rem;
+    margin-left: 3rem;
+    padding-top: 2rem;
+  }
+}
